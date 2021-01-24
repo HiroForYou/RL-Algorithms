@@ -1,0 +1,10 @@
+
+__pycache__/
+
+data/
+
+rollouts/CarRacing/*.jpg
+
+*.zip
+
+vae.torch
