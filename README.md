@@ -10,147 +10,36 @@
 <p></p>
 </h2>
 
-
-
-## 📜 Abstract 
-Currently, many rural areas of Peru still do not have a specialized medical center to perform different blood tests. Many of the equipment necessary for this purpose require a high economic investment and qualified personnel. This work proposes a fast and inexpensive system for the recognition of 3 types of blood cells based on convolutional networks. The ConvNet model is characterized by having reduced inference times, and also ease of deployment in hardware with reduced resources such as a Raspberry Pi. 
-
-The paper is available at this [link](https://drive.google.com/file/d/1FEv4wR2A_vQybh7ARqoT6nD2xu_SC8T3/view?usp=sharing).
-
-[![Open In Collab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Naereen/badges)
-
+[![Abrir en Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/HiroForYou/RL-Algorithms/blob/master/main.ipynb)
 
 
 
 ## 🆕 Update
-- 29/11/20: Improved and more personalized interface. Discontinued use
- **Streamlit** due to the limitation in the customization layer; it was replaced with native CSS and HTML, rendered by **Flask**. Improved file management system, now allows files to be stored on the server, using FLASK's own security protocols.
+- 23/01/21: Modelos agregados: PPO y World Models, se actualizaron las dependencias de las paqueterías de tal forma que no genere conflictos a la hora de ejecutarlos desde Colab. Puedes usar los siguientes entornos con GYM: LunarLander-v2, CarRacing y BipedalWalker-v3.
 
- TODO:
-- ✅ File storage directly on the server with Flask
-- ✅ Responsive web design
-- ⬜️ Support for React and Django
-- ⬜️ Model quantization
-- ⬜️ Support for AWS and Docker
+## ℹ️ Instrucciones
+Si desea ver con más detalle la explicación teórica, consulte `main.ipynb`
 
-## 📖 Content
-The following tree shows the structure of the application:
-```
-|- master-RasPi-BloodView/
-|   |- Blood-Detector/
-|       |- runs/
-|           |- FINAL/   
-|               |- weights/
-|                   |- best.pt
-|                   |- other torchscript files ..
-|           |- ..
-|       |- web/
-|           |- static/..
-|           |- template/..
-|           |- index.py
-|       |- blood_detection.py
-|       |- create_csv.py
-|       |- data_viz.py
-|       |- data_manage.py
-|       |- export_jit.py
-|       |- train.py
-|      
-|   |- Dataset/
-|       |- BCCD/
-|           |- Annotations/*.xml
-|           |- JPEGImages/*.jpg
-|           |- ModelData/
-|               |- images/
-|                   |- train/*.jpg
-|                   |- val/*.jpg
-|               |- labels/
-|                   |- train/*.txt
-|                   |- test/*.txt
-|           |- annotations_blood_cells.csv
-|           |- bloodData.yaml and LICENSE
-|   
-|   |- YOLOv5/
-|       |- data/..
-|       |- models/..
-|       |- utils/..
-|       |- detect.py (modificated)
-|       |- train.py
-|       |- test.py
-|       |- LICENSE
-|
-|   |- README.md
-```
-## ℹ️ Instructions
+A continuación se muestran los resultados para el algoritmo PPO:
 
-Install all dependencies with the command ```pip install -r requirements.txt```. To install Pytorch ARM on the RaspBerry, you need to compile it by following these [instructions](https://mathinf.eu/pytorch/arm64/). 
-Similarly, you need to compile OpenCV by following this [tutorial](https://qengineering.eu/install-opencv-4.2-on-raspberry-pi-4.html) (it will take about 5 hours). 
+PPO Discretizado LunarLander-v2 (1200 episodios)           |  PPO Contínuo BipedalWalker-v3 (4000 episodios)
+:-------------------------:|:-------------------------:
+![](PPO-PyTorch/gif/PPO_LunarLander-v2.gif) |  ![](PPO-PyTorch/gif/PPO_BipedalWalker-v2.gif)
 
-Pytorch and OpenCV are not officially available for RaspBerry at the time of publication of this work (11/30/2020).
 
-* Note: All the commands described below are executed in folder Blood-Detector.
-
-1. Data collection and pre-processing
-    Original Dataset available at [here](https://github.com/Shenggan/BCCD_Dataset). 
-    Place the data following the tree structure shown above. Run the following command to process the .xml files and get a .csv file with the coordinates of each blood cell (bounding box and centroid axis) per image.
-    ```
-       python create_csv.py
-    ```
-    
-    If you want to display the previously labeled bounding boxes, you can run the following command.
-    ```
-       python data_viz.py
-    ```
-    
-    Finally we need to split our data into a validation and training set. The following command generates .txt files for the tags and also copies the images to the 'train' and 'val' folders.
-    ```
-       python data_manage.py
-    ```
-
-2. Train and export model
-
-    * Note: If you have other data, modify the .yaml file inside the Dataset folder.
-
-    To train the model, just run the following command (you can modify this file to change the hyperparameters). 
-    Training for 100 epochs (on an Nvidia 1050Ti graphics card) took about 1 hour.
-    ```
-       python train.py
-    ```
-    The model is saved in the 'runs' folder. 
-
-    To export the model in JIT format you need to run the following command.
-    ```
-       python export_jit.py
-    ```
-    The generated file will be saved in the same folder 'runs'.
-
-3. Test model
-
-    To run the application, inside the 'web' folder execute the following command.
-    ```
-       python index.py
-    ```
-    
-    Below is a screenshot from PC and mobile.
-    
+También mostramos como se vería la salida del enfoque World Models en el circuito de coches:
 <p align="center">
-    <br>
-    <img src="Blood-Detector/web/static/images/hero/final_pc.png"/>
-    <p align="center">PC</p>
-    <br>
+  <img src="World-Models-PyTorch/src/car.gif" />
+  <p align="center">"Reconstuyendo los sueños"</p>
 </p>
-
-<p align="center">
-  <img src="Blood-Detector/web/static/images/hero/final_mobile.gif" />
-  <p align="center">Mobile</p>
-</p>
-
 
 ## 👨‍💻 Maintainers
 * Cristhian Wiki, Github: [HiroForYou](https://github.com/HiroForYou) Email: csanchezs@uni.pe
 
-## 🙏🏽 Special thanks
-* Version 1.5:
-Many thanks to the members of ENIGMA-AI (Cesar and Alexander) for the commitment presented in the project for almost two months.
-This work would not have been possible without team support.
-* Version 2:
+## 🙏🏽 Agradecimientos
+* Version 0.1:
+Este repositorio se baso principalmente en estos artículos de [towardsdatascience](https://towardsdatascience.com/introduction-to-proximal-policy-optimization-tutorial-with-openai-gym-environment-d1d80036e7c2) y [medium](https://medium.com/arxiv-bytes/summary-world-models-b050be1bf2d5) para el enfoque teórico, le recomiendo encarecidamente invierta su tiempo en dichas lecturas, son una buena apuesta!
+En cuanto al código, me base en los siguientes repositorios de [pytorch-vae](https://github.com/sksq96/pytorch-vae.git) y [PPO-PyTorch](https://github.com/nikhilbarhate99/PPO-PyTorch.git). Yo solo hice algunas modificaciones a sus implementaciones por cuestiones de incompatibilidades de Pyglet, Gym y Box2D, de tal forma que puedan ejecutarse sin problemas desde Google Colab. 
+
+* Version 0.2:
 *Soon*
